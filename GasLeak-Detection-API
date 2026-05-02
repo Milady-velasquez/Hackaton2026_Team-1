@@ -1,0 +1,72 @@
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.file.Files;
+
+public class Damagedetection {
+
+    public static void main(String[] args) {
+
+        try {
+            String apiKey = "API_KEY_HERE";
+            String model = "chemical-spill-lcjya/1";
+            // Here you can put any image to check where the gas leak is and how bad it is
+            File file = new File("C:\\Users\\Yahya\\OneDrive\\Desktop\\images.jpg");
+
+            String urlStr = "https://serverless.roboflow.com/" + model + "?api_key=" + apiKey;
+
+            String boundary = "Boundary-" + System.currentTimeMillis();
+
+            URL url = new URL(urlStr);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+
+            conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+
+            OutputStream outputStream = conn.getOutputStream();
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true);
+
+            // ---- FILE PART ----
+            writer.append("--" + boundary).append("\r\n");
+            writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + file.getName() + "\"\r\n");
+            writer.append("Content-Type: image/jpeg\r\n\r\n");
+            writer.flush();
+
+            Files.copy(file.toPath(), outputStream);
+            outputStream.flush();
+
+            writer.append("\r\n");
+            writer.flush();
+
+            // ---- END ----
+            writer.append("--" + boundary + "--").append("\r\n");
+            writer.close();
+
+            // RESPONSE
+            int status = conn.getResponseCode();
+            System.out.println("HTTP Status: " + status);
+
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(
+                            status >= 400 ? conn.getErrorStream() : conn.getInputStream()
+                    )
+            );
+
+            String line;
+            StringBuilder response = new StringBuilder();
+
+            while ((line = br.readLine()) != null) {
+                response.append(line);
+            }
+
+            br.close();
+
+            System.out.println("Response: " + response.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
