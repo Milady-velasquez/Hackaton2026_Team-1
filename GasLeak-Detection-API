@@ -8,7 +8,7 @@ public class Damagedetection {
     public static void main(String[] args) {
 
         try {
-            String apiKey = "API_KEY_HERE";
+            String apiKey = "OKaSx6tL2PwbV6yCJQvE";
             String model = "chemical-spill-lcjya/1";
             // Here you can put any image to check where the gas leak is and how bad it is
             File file = new File("C:\\Users\\Yahya\\OneDrive\\Desktop\\images.jpg");
@@ -70,3 +70,4 @@ public class Damagedetection {
         }
     }
 }
+// Made by Yahya Berkdouchi
