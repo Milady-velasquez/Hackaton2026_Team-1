@@ -1,0 +1,17 @@
+trainA speed 45
+trainA temperature 75
+trainA pressure 110
+trainA vibration 65
+trainA weight 270000
+
+trainB speed 65
+trainB temperature 90
+trainB pressure 120
+trainB vibration 80
+trainB weight 290000
+
+trainC speed 30
+trainC temperature 60
+trainC pressure 80
+trainC vibration 50
+trainC weight 250000
