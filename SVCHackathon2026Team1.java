@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class SVCHackathon2026Team1 {
+public class DataAnalysis {
    public static final double SPEED_MAX = 60;
    public static final double SPEED_MID = 40;
    
